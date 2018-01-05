@@ -23,11 +23,13 @@ class Database {
     }
 
     async getCurrentData() {
-        let result = []
+        let data = [], total = 0
         for(var i in this.clients) {
-            result.push(await this.fetchData(this.clients[i], i))
+            let result = await this.fetchData(this.clients[i], i)
+            data.push(result)
+            total += result.profit
         }
-        return result
+        return {data, total: _.round(total, 5)}
     }
 
     async fetchData(client, name) {

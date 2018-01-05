@@ -5,7 +5,7 @@ const database = require('../class/database')
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
     res.render('status', {
-        data: await database.getCurrentData(),
+        data: await database.getCurrentData()
     })
 })
 

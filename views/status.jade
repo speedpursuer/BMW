@@ -8,7 +8,7 @@ html
     body
         .container-fluid
             table(class="table")
-                caption 当前收益
+                caption 当前总收益：#{data.total} BTC
                 thead
                     tr
                         th 名称
@@ -16,9 +16,9 @@ html
                         th 次数
                         th 收益
                 tbody
-                    each row, i in data
+                    each row, i in data.data
                         tr
                             th #{row.name}
                             th #{row.days}
                             th #{row.tradeTimes}
-                            th #{row.profit}
+                            th #{row.profit} BTC
