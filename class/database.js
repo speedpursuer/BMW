@@ -21,9 +21,9 @@ class Database {
     }
 
     async getCurrentData() {
-        let result = ""
+        let result = []
         for(var i in this.clients) {
-            result += this.parseData(await this.fetchData(this.clients[i], i)) + '\n'
+            result.push(await this.fetchData(this.clients[i], i))
         }
         return result
     }
@@ -34,10 +34,6 @@ class Database {
         let data = JSON.parse(await client.getAsync(key))
         data.name = name
         return data
-    }
-
-    parseData(data) {
-        return `${data.name} -- 对冲次数: ${data.tradeTimes}, 收益: ${data.profit}`
     }
 
     // async getData() {

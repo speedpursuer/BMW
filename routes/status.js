@@ -4,7 +4,9 @@ const database = require('../class/database')
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-    res.send(await database.getCurrentData());
-});
+    res.render('status', {
+        data: await database.getCurrentData(),
+    })
+})
 
-module.exports = router;
+module.exports = router
