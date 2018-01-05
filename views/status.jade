@@ -4,6 +4,7 @@ html
         title= title
         //script(type='text/javascript' src="https://cdn.bootcss.com/jquery/2.1.1-rc2/jquery.js")
         link(rel='stylesheet', href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
     body
         .container-fluid
             table(class="table")
@@ -11,15 +12,13 @@ html
                 thead
                     tr
                         th 名称
-                        th 开始时间
-                        th 更新时间
+                        th 天数
                         th 次数
                         th 收益
                 tbody
                     each row, i in data
                         tr
                             th #{row.name}
-                            th #{row.lastUpdate}
-                            th #{row.startTime}
+                            th #{row.days}
                             th #{row.tradeTimes}
                             th #{row.profit}

@@ -3,6 +3,8 @@ const redis = require("redis")
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 const redisList = require("../config/redisList")
+const moment = require('moment')
+const _ = require('lodash')
 
 class Database {
     constructor() {
@@ -32,8 +34,20 @@ class Database {
         let keys = (await client.keysAsync('*')).sort()
         let key = keys[keys.length-1]
         let data = JSON.parse(await client.getAsync(key))
+        return this.parseData(data, name)
+    }
+
+    parseData(data, name) {
         data.name = name
+        data.days = this.timeDiff(data.startTime, data.lastUpdate)
+        data.profit = _.round(data.profit, 5)
         return data
+    }
+
+    timeDiff(earlier, later) {
+        var a = moment(earlier);
+        var b = moment(later);
+        return _.round(b.diff(a, 'days', true), 1)
     }
 
     // async getData() {
