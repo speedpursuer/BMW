@@ -16,8 +16,10 @@ class Database {
         for(var item of redisList) {
             const client = redis.createClient({
                 host: item.host,
-                port: item.post
+                port: item.post,
+                password: item.password
             })
+            client.auth(item.password)
             this.clients[item.name] = client
         }
     }
