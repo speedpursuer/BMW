@@ -15,10 +15,12 @@ html
                         th 天数
                         th 次数
                         th 收益
+                        th 问题
                 tbody
                     each row, i in data.data
                         tr
                             th #{row.name}
                             th #{row.days}
                             th #{row.tradeTimes}
-                            th #{row.profit} BTC
+                            th #{row.profit}
+                            th #{row.closedExchanges}
