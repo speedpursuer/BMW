@@ -24,3 +24,13 @@ html
                             th #{row.tradeTimes}
                             th #{row.profit}
                             th #{row.closedExchanges}
+
+            table(class="table")
+                caption 当前API问题
+                thead
+                    tr
+                        th 名称
+                tbody
+                    each row, i in data.issues
+                        tr
+                            th #{row}
