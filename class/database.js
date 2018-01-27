@@ -20,18 +20,42 @@ class Database {
                 password: item.password
             })
             client.auth(item.password)
-            this.clients[item.name] = client
+            this.clients[item.name] = {
+                client: client,
+                multiple: item.multiple
+            }
         }
     }
 
     async getCurrentData() {
         let data = [], total = 0
-        for(var i in this.clients) {
-            let result = await this.fetchData(this.clients[i], i)
-            data.push(result)
-            total += result.profit
+        for(let i in this.clients) {
+            let results
+            if(this.clients[i].multiple) {
+                results = await this.fetchMultipleData(this.clients[i].client)
+
+            }else {
+                results = [await this.fetchData(this.clients[i].client, i)]
+            }
+            for(let result of results) {
+                data.push(result)
+                total += result.profit
+            }
         }
         return {data, total: _.round(total, 5)}
+    }
+
+    async fetchMultipleData(client) {
+        let keys = (await client.keysAsync('app_*')).sort()
+        let key = keys[keys.length-1]
+        let tradeKeys = JSON.parse(await client.getAsync(key)).trades
+        let trades = await client.mgetAsync(tradeKeys)
+        let result = []
+        for(let item of trades) {
+            let data = JSON.parse(item)
+            result.push(this.parseData(data, data.tradeSymbol))
+        }
+        return result
     }
 
     async fetchData(client, name) {
@@ -45,7 +69,7 @@ class Database {
         data.name = name
         data.days = this.timeDiff(data.startTime, data.lastUpdate)
         data.profit = _.round(data.profit, 5)
-        data.closedExchanges = data.closedAPIs.join()
+        data.closedExchanges = data.closedAPIs? data.closedAPIs.join(): []
         return data
     }
 
