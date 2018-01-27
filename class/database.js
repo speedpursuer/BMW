@@ -28,12 +28,13 @@ class Database {
     }
 
     async getCurrentData() {
-        let data = [], total = 0
+        let data = [], total = 0, issues = []
         for(let i in this.clients) {
             let results
             if(this.clients[i].multiple) {
-                results = await this.fetchMultipleData(this.clients[i].client)
-
+                let multiResult = await this.fetchMultipleData(this.clients[i].client)
+                results = multiResult.result
+                issues = _.concat(issues, multiResult.closedAPIs)
             }else {
                 results = [await this.fetchData(this.clients[i].client, i)]
             }
@@ -42,20 +43,22 @@ class Database {
                 total += result.profit
             }
         }
-        return {data, total: _.round(total, 5)}
+        return {data, total: _.round(total, 5), issues}
     }
 
     async fetchMultipleData(client) {
         let keys = (await client.keysAsync('app_*')).sort()
         let key = keys[keys.length-1]
-        let tradeKeys = JSON.parse(await client.getAsync(key)).trades
+        let appLog = JSON.parse(await client.getAsync(key))
+        let tradeKeys = appLog.trades
+        let closedAPIs = appLog.closedAPIs
         let trades = await client.mgetAsync(tradeKeys)
         let result = []
         for(let item of trades) {
             let data = JSON.parse(item)
             result.push(this.parseData(data, data.tradeSymbol))
         }
-        return result
+        return {result, closedAPIs}
     }
 
     async fetchData(client, name) {
