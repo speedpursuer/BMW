@@ -30,7 +30,9 @@ html
                 thead
                     tr
                         th 名称
+                        th 服务器
                 tbody
                     each row, i in data.issues
                         tr
-                            th #{row}
+                            th #{row.id}
+                            th #{row.ip}
