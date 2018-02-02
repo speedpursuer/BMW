@@ -15,7 +15,8 @@ html
                         th 天数
                         th 次数
                         th 收益
-                        th 问题
+                        th 初始钱
+                        th 初始币
                 tbody
                     each row, i in data.data
                         tr
@@ -23,7 +24,8 @@ html
                             th #{row.days}
                             th #{row.tradeTimes}
                             th #{row.profit}
-                            th #{row.closedExchanges}
+                            th #{row.initTotalBalance}
+                            th #{row.initTotalStock}
 
             table(class="table")
                 caption 当前API问题

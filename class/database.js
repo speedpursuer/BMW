@@ -72,7 +72,9 @@ class Database {
         data.name = name
         data.days = this.timeDiff(data.startTime, data.lastUpdate)
         data.profit = _.round(data.profit, 5)
-        data.closedExchanges = data.closedAPIs? data.closedAPIs.join(): []
+        data.initTotalBalance = _.round(data.initTotalBalance, 5)
+        data.initTotalStock = _.round(data.initTotalStock, 5)
+        // data.closedExchanges = data.closedAPIs? data.closedAPIs.join(): []
         return data
     }
 
