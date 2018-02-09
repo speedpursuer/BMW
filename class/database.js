@@ -62,7 +62,7 @@ class Database {
     }
 
     async fetchData(client, name) {
-        let keys = (await client.keysAsync('*')).sort()
+        let keys = (await client.keysAsync('trade_*')).sort()
         let key = keys[keys.length-1]
         let data = JSON.parse(await client.getAsync(key))
         return this.parseData(data, name)
@@ -74,7 +74,7 @@ class Database {
         data.profit = _.round(data.profit, 5)
         data.initTotalBalance = _.round(data.initTotalBalance, 5)
         data.initTotalStock = _.round(data.initTotalStock, 5)
-        // data.closedExchanges = data.closedAPIs? data.closedAPIs.join(): []
+        data.closedExchanges = data.closedAPIs? data.closedAPIs.join(): []
         return data
     }
 

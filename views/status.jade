@@ -17,6 +17,7 @@ html
                         th 收益
                         th 初始钱
                         th 初始币
+                        th 问题
                 tbody
                     each row, i in data.data
                         tr
@@ -26,6 +27,7 @@ html
                             th #{row.profit}
                             th #{row.initTotalBalance}
                             th #{row.initTotalStock}
+                            th #{row.closedExchanges}
 
             table(class="table")
                 caption 当前API问题
